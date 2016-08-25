@@ -24,7 +24,7 @@ var CommentBox = React.createClass({
           */}
         <h1>Comments</h1>
         {/* CommentBox will use these components */}
-        <CommentList />
+        <CommentList data={this.props.data} />
         <CommentForm />
       </div>
     );
@@ -35,9 +35,11 @@ var CommentList = React.createClass({
   render: function() {
     return (
       <div className="commentList">
-    {/* Passing data from parent to child*/}
-        <Comment author="Pete Hunt">This is one comment</Comment>
-        <Comment author="Jordan Walke">This is *another* comment</Comment>
+      {/* Passing data from parent to child*/}
+        var data = [
+          {id: 1, author: "Pete Hunt", text: "This is one comment"},
+          {id: 2, author: "Jordan Walke", text: "This is *another* comment"}
+        ];
       </div>
     );
   }
@@ -85,6 +87,7 @@ var Comment = React.createClass({
  *	and injects the markup into a raw DOM element.
  */
 ReactDOM.render(
-  <CommentBox />,
+  // pass data to CommentBox
+  <CommentBox data={data} />,
   document.getElementById('content')
 );
