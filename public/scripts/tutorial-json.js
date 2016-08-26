@@ -1,15 +1,21 @@
 /** 
- *	React is all about modular, composable components. 	
- *	- Commentbox
- *		- CommentList
- *			- Comment
- *		- CommentForm
+ *  React is all about modular, composable components.  
+ *  - Commentbox
+ *    - CommentList
+ *      - Comment
+ *    - CommentForm
  */
 
 /** 
  *  Native HTML elements start with lowercase, 
  *  React class names begin with uppercase
  */
+
+var data = [
+  {id: 1, author: "Pete Hunt", text: "This is one comment"},
+  {id: 2, author: "Jordan Walke", text: "This is *another* comment"}
+];
+
 // React.createClass() creates a new react component
 var CommentBox = React.createClass({
   // Render returns a tree of react components which will eventually render to HTML
@@ -33,13 +39,16 @@ var CommentBox = React.createClass({
 
 var CommentList = React.createClass({
   render: function() {
+    var commentNodes = this.props.data.map(function(comment) {
+      return (
+        <Comment author={comment.author} key={comment.id}>
+          {comment.text}
+        </Comment>
+      );
+    });
     return (
       <div className="commentList">
-      {/* Passing data from parent to child*/}
-        var data = [
-          {id: 1, author: "Pete Hunt", text: "This is one comment"},
-          {id: 2, author: "Jordan Walke", text: "This is *another* comment"}
-        ];
+        {commentNodes}
       </div>
     );
   }
@@ -56,13 +65,13 @@ var CommentForm = React.createClass({
 });
 
 var Comment = React.createClass({
-  render: function() {
-    {/**
-      * Markdown is a simple way to format text. 
-      * Remarkable is a library that takes markdown text and 
-      * converts it to raw HTML.
-      */}
+  rawMarkup: function() {
     var md = new Remarkable();
+    var rawMarkup = md.render(this.props.children.toString());
+    return { __html: rawMarkup };
+  },
+
+  render: function() {
     return (
       <div classname="comment">
         <h2 classname="commentAuthor">
@@ -75,19 +84,17 @@ var Comment = React.createClass({
             */}
           {this.props.author}
         </h2>
-        {/* Calling the remarkable library and returning a string */}
-        {md.render(this.props.children.toString())}
+        <span dangerouslySetInnerHTML={this.rawMarkup()} />
       </div>
     );
   }
 });
 
-/** 	
- *	Instantiates the root component, starts the framework, 
- *	and injects the markup into a raw DOM element.
+/**   
+ *  Instantiates the root component, starts the framework, 
+ *  and injects the markup into a raw DOM element.
  */
 ReactDOM.render(
-  // pass data to CommentBox
   <CommentBox data={data} />,
   document.getElementById('content')
 );

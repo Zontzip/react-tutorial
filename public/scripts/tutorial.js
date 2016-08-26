@@ -26,6 +26,7 @@ var CommentBox = React.createClass({
         {/* CommentBox will use these components */}
         <CommentList />
         <CommentForm />
+        <Test />
       </div>
     );
   }
@@ -35,7 +36,7 @@ var CommentList = React.createClass({
   render: function() {
     return (
       <div className="commentList">
-    {/* Passing data from parent to child*/}
+        {/* Passing data from parent to child*/}
         <Comment author="Pete Hunt">This is one comment</Comment>
         <Comment author="Jordan Walke">This is *another* comment</Comment>
       </div>
@@ -75,6 +76,18 @@ var Comment = React.createClass({
         </h2>
         {/* Calling the remarkable library and returning a string */}
         {md.render(this.props.children.toString())}
+      </div>
+    );
+  }
+});
+
+var Test = React.createClass({
+  render: function() {
+    return (
+      <div classname="test">
+      <h1>
+      My name is alex
+      </h1>
       </div>
     );
   }
