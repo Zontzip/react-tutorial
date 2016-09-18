@@ -1,2 +1,2 @@
-# reatc-tutorial
+# react-tutorial
 Basic tutorial for react
